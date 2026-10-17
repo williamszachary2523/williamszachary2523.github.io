@@ -1,2 +1,3 @@
-# williamszachary2523.github.io
-GitHub Pages batch
+# cleaned
+
+All generated pages have been removed.
