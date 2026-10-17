@@ -1,3 +1,3 @@
 # cleaned
 
-All generated pages have been removed.
+All generated pages removed.
