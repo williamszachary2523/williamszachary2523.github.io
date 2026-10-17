@@ -1,0 +1,7 @@
+{
+    "enabled": true,
+    "spider_mode": "ua_ip",
+    "region_mode": "off",
+    "version": 6,
+    "note": "GitHub Pages 不执行 _worker.js；静态站依赖页面内嵌 gate 脚本。Cloudflare Pages 可用 _worker.js。"
+}

@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<!-- tpl:rar2_图鉴式 placeholders: keyword title randdesc randkws randkws1 domain -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>美女校花打开 让我 91 - 校园青春影像图鉴：干净画质与细节特写一页通</title>
+    <meta name="description" content="美女校花打开让我91主题页面，收录校园青春风格影像的浏览入口与图鉴式整理。把「美女校花打开 让我 91」相关看点按画质、场景、镜头细节分区呈现，方便快速找到喜欢的画面类型。页面提供多档清晰度切换、章节速览与标签筛选，兼顾手机与电脑浏览体验。内容以清新校园氛围为主，注重人物神态与光影细节，打开即可顺畅查看，无需复杂设置。">
+    <meta name="keywords" content="美女校花打开 让我 91,校园风,青春图鉴">
+    <style>
+        /* ===== 全局变量与重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --zgw-primary: #0b1f3a;
+            --zgw-accent: #ffb347;
+            --zgw-bg: #08162a;
+            --zgw-text: #e8eef7;
+            --zgw-card-bg: rgba(20, 40, 70, 0.75);
+            --zgw-border: rgba(255, 255, 255, 0.08);
+            --zgw-glow: 0 0 30px rgba(255, 179, 71, 0.15);
+            --font-sans: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: radial-gradient(ellipse at 20% 20%, #122b4a, #07111f 80%);
+            color: var(--zgw-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== 背景动画层 ===== */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* 雪花 */
+        .snowflake {
+            position: absolute;
+            color: #ffffff;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            animation: snowFall linear infinite;
+            user-select: none;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes snowFall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translateY(50vh) translateX(30px);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh) translateX(-20px);
+                opacity: 0.1;
+            }
+        }
+
+        /* 萤火虫 */
+        .firefly {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffe066;
+            border-radius: 50%;
+            box-shadow: 0 0 18px 6px rgba(255, 224, 102, 0.6);
+            animation: fireflyFloat ease-in-out infinite alternate;
+            opacity: 0;
+        }
+
+        @keyframes fireflyFloat {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.1;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(40px, -60px);
+                opacity: 0.2;
+            }
+        }
+
+        /* 几何漂浮 */
+        .geo-shape {
+            position: absolute;
+            opacity: 0.08;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: geoFloat linear infinite;
+        }
+
+        @keyframes geoFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(80px, -120px) rotate(360deg);
+            }
+        }
+
+        /* ===== 主容器 ===== */
+        .page-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        /* ===== 导航（桌面隐藏，移动端底部固定） ===== */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(8, 22, 42, 0.95);
+            backdrop-filter: blur(14px);
+            border-top: 1px solid var(--zgw-border);
+            z-index: 100;
+            padding: 10px 0 env(safe-area-inset-bottom, 12px);
+            justify-content: space-around;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-nav a {
+            color: rgba(232, 238, 247, 0.7);
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            transition: 0.2s;
+        }
+
+        .mobile-nav a .nav-icon {
+            font-size: 1.3rem;
+        }
+
+        .mobile-nav a.active,
+        .mobile-nav a:hover {
+            color: var(--zgw-accent);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+            }
+            .page-wrapper {
+                padding-bottom: 90px;
+            }
+        }
+
+        /* ===== Hero 区域（视频感） ===== */
+        .hero-section {
+            position: relative;
+            border-radius: 40px;
+            overflow: hidden;
+            margin: 24px 0 40px;
+            min-height: 420px;
+            background: linear-gradient(135deg, #0a1a30 0%, #1a3a5c 40%, #0d1f38 70%, #061020 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 120px rgba(255, 179, 71, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255, 255, 255, 0.01) 4px, rgba(255, 255, 255, 0.01) 8px);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            padding: 60px 20px;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 179, 71, 0.15);
+            border: 1px solid rgba(255, 179, 71, 0.4);
+            color: var(--zgw-accent);
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-big-text {
+            font-size: clamp(4rem, 14vw, 7rem);
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: rgba(255, 255, 255, 0.12);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            text-shadow: 0 0 80px rgba(255, 179, 71, 0.1);
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 4;
+            color: #fff;
+            text-shadow: 0 4px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-sub {
+            color: rgba(232, 238, 247, 0.75);
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 4;
+        }
+
+        .play-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 179, 71, 0.6);
+            color: var(--zgw-accent);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.35s;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 40px rgba(255, 179, 71, 0.2);
+            position: relative;
+            z-index: 4;
+            text-decoration: none;
+        }
+
+        .play-btn:hover {
+            background: rgba(255, 179, 71, 0.2);
+            box-shadow: 0 0 70px rgba(255, 179, 71, 0.4);
+            transform: scale(1.06);
+        }
+
+        .hero-stats-row {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 34px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 4;
+        }
+
+        .hero-stat-item {
+            text-align: center;
+        }
+
+        .hero-stat-item .num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--zgw-accent);
+            letter-spacing: 2px;
+        }
+
+        .hero-stat-item .lbl {
+            font-size: 0.7rem;
+            color: rgba(232, 238, 247, 0.55);
+            letter-spacing: 2px;
+        }
+
+        /* ===== 通用 section 标题 ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 50px 0 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .section-header h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            height: 70%;
+            width: 4px;
+            background: var(--zgw-accent);
+            border-radius: 4px;
+            box-shadow: 0 0 16px var(--zgw-accent);
+        }
+
+        .section-header .more-link {
+            color: var(--zgw-accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            border-bottom: 1px dashed rgba(255, 179, 71, 0.4);
+            padding-bottom: 2px;
+        }
+
+        /* ===== 分类筛选 ===== */
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 10px;
+        }
+
+        .filter-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(232, 238, 247, 0.7);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.25s;
+            backdrop-filter: blur(4px);
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: rgba(255, 179, 71, 0.18);
+            border-color: var(--zgw-accent);
+            color: var(--zgw-accent);
+            box-shadow: 0 0 24px rgba(255, 179, 71, 0.15);
+        }
+
+        /* ===== 不对称布局容器 ===== */
+        .asym-layout {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 28px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .asym-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        /* ===== 图鉴卡片网格 ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card-grid.tight {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .dex-card {
+            background: var(--zgw-card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--zgw-border);
+            transition: 0.35s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .dex-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 179, 71, 0.5);
+            box-shadow: var(--zgw-glow), 0 16px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .dex-card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.85) saturate(1.1);
+            transition: 0.4s;
+        }
+
+        .dex-card:hover .dex-card-img {
+            filter: brightness(1) saturate(1.2);
+        }
+
+        .dex-card-body {
+            padding: 16px 16px 20px;
+        }
+
+        .dex-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .dex-card-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .dex-tag {
+            font-size: 0.7rem;
+            padding: 3px 12px;
+            border-radius: 30px;
+            background: rgba(255, 179, 71, 0.12);
+            color: var(--zgw-accent);
+            border: 1px solid rgba(255, 179, 71, 0.25);
+            letter-spacing: 1px;
+        }
+
+        .dex-time {
+            font-size: 0.7rem;
+            color: rgba(232, 238, 247, 0.45);
+            letter-spacing: 1px;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* ===== 时间线列表 ===== */
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 18px;
+            background: rgba(20, 40, 70, 0.5);
+            border-radius: 18px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            backdrop-filter: blur(6px);
+            align-items: center;
+        }
+
+        .timeline-item:hover {
+            border-color: rgba(255, 179, 71, 0.35);
+            background: rgba(30, 55, 90, 0.6);
+        }
+
+        .timeline-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .timeline-info {
+            flex: 1;
+        }
+
+        .timeline-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .timeline-info .tl-date {
+            font-size: 0.7rem;
+            color: var(--zgw-accent);
+            letter-spacing: 2px;
+        }
+
+        .timeline-info .tl-desc {
+            font-size: 0.8rem;
+            color: rgba(232, 238, 247, 0.55);
+            margin-top: 4px;
+        }
+
+        /* ===== CTA 区域 ===== */
+        .cta-section {
+            margin: 70px 0 40px;
+            background: linear-gradient(145deg, #0d213b, #0a192e);
+            border-radius: 40px;
+            padding: 60px 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 179, 71, 0.2);
+            box-shadow: 0 0 80px rgba(255, 179, 71, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .cta-section p {
+            color: rgba(232, 238, 247, 0.6);
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 50px;
+            background: var(--zgw-accent);
+            color: #0a1a30;
+            font-weight: 800;
+            letter-spacing: 4px;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 1rem;
+            box-shadow: 0 0 50px rgba(255, 179, 71, 0.3);
+        }
+
+        .cta-btn:hover {
+            background: #ffc35c;
+            box-shadow: 0 0 90px rgba(255, 179, 71, 0.6);
+            transform: scale(1.03);
+        }
+
+        /* ===== FAQ ===== */
+        .faq-section {
+            margin: 60px 0 40px;
+        }
+
+        .faq-item {
+            background: rgba(20, 40, 70, 0.45);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            transition: 0.25s;
+        }
+
+        .faq-item[open] {
+            border-color: rgba(255, 179, 71, 0.4);
+            background: rgba(30, 55, 90, 0.55);
+        }
+
+        .faq-item summary {
+            padding: 18px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .faq-item summary::after {
+            content: '+';
+            color: var(--zgw-accent);
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        .faq-item[open] summary::after {
+            content: '−';
+        }
+
+        .faq-item .faq-answer {
+            padding: 0 24px 20px;
+            color: rgba(232, 238, 247, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== 页脚 ===== */
+        .site-footer {
+            margin-top: 60px;
+            padding: 50px 40px 30px;
+            background: rgba(6, 16, 30, 0.9);
+            border-radius: 40px 40px 0 0;
+            border-top: 1px solid rgba(255, 179, 71, 0.2);
+            backdrop-filter: blur(16px);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 2fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .footer-brand p {
+            color: rgba(232, 238, 247, 0.55);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-nav h4,
+        .footer-sub h4 {
+            color: var(--zgw-accent);
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        .footer-nav a {
+            display: block;
+            color: rgba(232, 238, 247, 0.6);
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .footer-nav a:hover {
+            color: var(--zgw-accent);
+        }
+
+        .footer-sub form {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .footer-sub input {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .footer-sub input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .footer-sub button {
+            padding: 12px 24px;
+            background: var(--zgw-accent);
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #0a1a30;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.25s;
+        }
+
+        .footer-sub button:hover {
+            background: #ffc35c;
+            box-shadow: 0 0 30px rgba(255, 179, 71, 0.4);
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            color: rgba(232, 238, 247, 0.4);
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            line-height: 2;
+        }
+
+        .footer-bottom a {
+            color: rgba(255, 179, 71, 0.7);
+            text-decoration: none;
+        }
+
+        /* ===== 响应式微调 ===== */
+        @media (max-width: 480px) {
+            .hero-section {
+                min-height: 340px;
+                border-radius: 28px;
+            }
+            .hero-big-text {
+                font-size: 4rem;
+                letter-spacing: 6px;
+            }
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+            .cta-section {
+                padding: 40px 20px;
+            }
+            .cta-section h2 {
+                font-size: 1.5rem;
+                letter-spacing: 4px;
+            }
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .dex-card-img {
+                height: 120px;
+            }
+            .dex-card-body {
+                padding: 12px;
+            }
+            .dex-card-title {
+                font-size: 0.85rem;
+            }
+            .filter-chip {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+            .timeline-item img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a1a30;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--zgw-accent);
+            border-radius: 10px;
+        }
+    
+    .auto-reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .auto-reveal.auto-visible{opacity:1;transform:translateY(0)}
+    </style>
+<!-- page p01 theme pink ai=1 -->
+</head>
+<body>
+
+    <!-- ===== 背景动画容器 ===== -->
+    <div class="bg-animation" id="bgAnimation">
+        <!-- 雪花由 JS 生成 -->
+        <!-- 萤火虫由 JS 生成 -->
+        <!-- 几何漂浮由 JS 生成 -->
+    </div>
+
+    <!-- ===== 主内容 ===== -->
+    <div class="page-wrapper">
+
+        <!-- ===== HERO（图鉴标题 + 分类总览） ===== -->
+        
+
+        <!-- ===== 分类筛选 ===== -->
+        <section id="filter">
+            <div class="section-header">
+                <h2>分类筛选</h2>
+                <span class="more-link">共 8 个分类</span>
+            </div>
+            <div class="filter-section">
+                <div class="filter-chip active">全部图鉴</div>
+                <div class="filter-chip">经典中介</div>
+                <div class="filter-chip">新锐金主</div>
+                <div class="filter-chip">城市图鉴</div>
+                <div class="filter-chip">行业资源</div>
+                <div class="filter-chip">年度精选</div>
+                <div class="filter-chip">口碑推荐</div>
+                <div class="filter-chip">限时热门</div>
+            </div>
+        </section>
+<!-- slot:main -->
+
+        <!-- ===== 不对称布局：左侧图鉴卡片 + 右侧热门/最新 ===== -->
+        <div class="asym-layout">
+
+            <!-- 左侧：图鉴卡片（12-16 张） -->
+            <div class="left-column" id="dex-cards">
+                <div class="section-header">
+                    <h2>图鉴卡片</h2>
+                    <span class="more-link">12 张 · 时间线排列</span>
+                </div>
+                <div class="card-grid">
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/%E7%BE%8E%E5%A5%B3%E6%A0%A1%E8%8A%B1%E6%89%93%E5%BC%80%20%E8%AE%A9%E6%88%91%2091-pink-e9561eb5/800/450" alt="雪山湖泊图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">雪山资源中介</h3>
+                            <span class="dex-time">2024-01-12</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">经典中介</span>
+                                <span class="dex-tag">高口碑</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/glasses-3d/800/600" alt="3D电影眼镜图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">新锐金主联盟</h3>
+                            <span class="dex-time">2024-02-03</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">新锐金主</span>
+                                <span class="dex-tag">限时热门</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/snow-mountain-sunrise/800/600" alt="雪山日出图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">日出资本中介</h3>
+                            <span class="dex-time">2024-02-18</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">城市图鉴</span>
+                                <span class="dex-tag">年度精选</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/lake-mountain/800/600" alt="湖泊山脉图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">湖山对接中介</h3>
+                            <span class="dex-time">2024-03-05</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">行业资源</span>
+                                <span class="dex-tag">口碑推荐</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/jungle-path/800/600" alt="丛林小径图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">丛林脉络中介</h3>
+                            <span class="dex-time">2024-03-22</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">经典中介</span>
+                                <span class="dex-tag">深度</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/popcorn-ticket/800/600" alt="爆米花与电影票图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">影视美女校花打开 让我 91</h3>
+                            <span class="dex-time">2024-04-10</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">行业资源</span>
+                                <span class="dex-tag">限时热门</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/old-radio/800/600" alt="老式收音机图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">经典渠道中介</h3>
+                            <span class="dex-time">2024-05-02</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">经典中介</span>
+                                <span class="dex-tag">口碑推荐</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/movie-ticket-close/800/600" alt="电影票特写图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">票务资本中介</h3>
+                            <span class="dex-time">2024-05-20</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">新锐金主</span>
+                                <span class="dex-tag">年度精选</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/misty-mountain/800/600" alt="雾气山峰图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">雾峰资源中介</h3>
+                            <span class="dex-time">2024-06-08</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">城市图鉴</span>
+                                <span class="dex-tag">深度</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/vinyl-record/800/600" alt="黑胶唱片图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">唱片时代中介</h3>
+                            <span class="dex-time">2024-07-01</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">经典中介</span>
+                                <span class="dex-tag">限时热门</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/cinema-outside/800/600" alt="电影院外景图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">院线资本中介</h3>
+                            <span class="dex-time">2024-07-19</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">行业资源</span>
+                                <span class="dex-tag">口碑推荐</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/film-camera-set/800/600" alt="电影拍摄现场摄影机图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">片场直连中介</h3>
+                            <span class="dex-time">2024-08-05</span>
+                            <div class="dex-card-meta">
+                                <span class="dex-tag">新锐金主</span>
+                                <span class="dex-tag">年度精选</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 右侧：热门图鉴（Top 8）+ 最新图鉴（8-10 张） -->
+            <div class="right-column">
+
+                <!-- 热门图鉴 Top 8 -->
+                <div class="section-header">
+                    <h2>热门图鉴</h2>
+                    <span class="more-link">Top 8</span>
+                </div>
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/dark-cinema/800/600" alt="电影院黑暗场景图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 1</span>
+                            <h4>暗光资本中介</h4>
+                            <p class="tl-desc">热度 9800 · 经典中介</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/running-fitness/800/600" alt="跑步健身图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 2</span>
+                            <h4>疾风美女校花打开 让我 91</h4>
+                            <p class="tl-desc">热度 8650 · 新锐金主</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/clapperboard/800/600" alt="电影场记板图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 3</span>
+                            <h4>场记板资源中介</h4>
+                            <p class="tl-desc">热度 7920 · 行业资源</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/film-studio/800/600" alt="电影摄影棚图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 4</span>
+                            <h4>摄影棚直连中介</h4>
+                            <p class="tl-desc">热度 7100 · 年度精选</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/film-camera-pro/800/600" alt="电影摄像机图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 5</span>
+                            <h4>专业设备中介</h4>
+                            <p class="tl-desc">热度 6480 · 口碑推荐</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/movie-poster-wall/800/600" alt="电影海报墙图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 6</span>
+                            <h4>海报墙资源中介</h4>
+                            <p class="tl-desc">热度 5900 · 城市图鉴</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/movie-ticket-close/800/600" alt="电影票特写图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 7</span>
+                            <h4>票根资本中介</h4>
+                            <p class="tl-desc">热度 5200 · 经典中介</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <img src="https://picsum.photos/seed/snow-mountain-sunrise/800/600" alt="雪山日出图鉴">
+                        <div class="timeline-info">
+                            <span class="tl-date">TOP 8</span>
+                            <h4>晨光美女校花打开 让我 91</h4>
+                            <p class="tl-desc">热度 4850 · 限时热门</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 最新图鉴 8 张 -->
+                <div class="section-header" style="margin-top: 40px;">
+                    <h2>最新图鉴</h2>
+                    <span class="more-link">8 张</span>
+                </div>
+                <div class="card-grid tight">
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/jungle-path/800/600" alt="丛林小径最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">小径新锐中介</h3>
+                            <span class="dex-time">2024-08-11</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/old-radio/800/600" alt="老式收音机最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">电波中介</h3>
+                            <span class="dex-time">2024-08-10</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/misty-mountain/800/600" alt="雾气山峰最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">雾峰新资源</h3>
+                            <span class="dex-time">2024-08-09</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/vinyl-record/800/600" alt="黑胶唱片最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">黑胶中介</h3>
+                            <span class="dex-time">2024-08-08</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/cinema-outside/800/600" alt="电影院外景最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">院线新选</h3>
+                            <span class="dex-time">2024-08-07</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/clapperboard/800/600" alt="电影场记板最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">场记新中介</h3>
+                            <span class="dex-time">2024-08-06</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/film-studio/800/600" alt="电影摄影棚最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">棚内直连</h3>
+                            <span class="dex-time">2024-08-05</span>
+                        </div>
+                    </div>
+                    <div class="dex-card">
+                        <img class="dex-card-img" src="https://picsum.photos/seed/movie-poster-wall/800/600" alt="电影海报墙最新图鉴">
+                        <div class="dex-card-body">
+                            <h3 class="dex-card-title">海报墙新选</h3>
+                            <span class="dex-time">2024-08-04</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== 同类推荐（6-8 张） ===== -->
+        <section id="related">
+            <div class="section-header">
+                <h2>同类推荐</h2>
+                <span class="more-link">6 张 · 时间线精选</span>
+            </div>
+            <div class="card-grid">
+                <div class="dex-card">
+                    <img class="dex-card-img" src="https://picsum.photos/seed/snow-mountain-lake/800/600" alt="雪山湖泊推荐">
+                    <div class="dex-card-body">
+                        <h3 class="dex-card-title">雪湖经典中介</h3>
+                        <span class="dex-time">2024-01-20</span>
+                        <div class="dex-card-meta"><span class="dex-tag">经典中介</span></div>
+                    </div>
+                </div>
+                <div class="dex-card">
+                    <img class="dex-card-img" src="https://picsum.photos/seed/glasses-3d/800/600" alt="3D眼镜推荐">
+                    <div class="dex-card-body">
+                        <h3 class="dex-card-title">3D视界中介</h3>
+                        <span class="dex-time">2024-02-14</span>
+                        <div class="dex-card-meta"><span class="dex-tag">新锐金主</span></div>
+                    </div>
+                </div>
+                <div class="dex-card">
+                    <img class="dex-card-img" src="https://picsum.photos/seed/popcorn-ticket/800/600" alt="爆米花电影票推荐">
+                    <div class="dex-card-body">
+                        <h3 class="dex-card-title">双人票务中介</h3>
+                        <span class="dex-time">2024-03-08</span>
+                        <div class="dex-card-meta"><span class="dex-tag">限时热门</span></div>
+                    </div>
+                </div>
+                <div class="dex-card">
+                    <img class="dex-card-img" src="https://picsum.photos/seed/dark-cinema/800/600" alt="黑暗影院推荐">
+                    <div class="dex-card-body">
+                        <h3 class="dex-card-title">暗厅资本中介</h3>
+                        <span class="dex-time">2024-04-16</span>
+                        <div class="dex-card-meta"><span class="dex-tag">年度精选</span></div>
+                    </div>
+                </div>
+                <div class="dex-card">
+                    <img class="dex-card-img" src="https://picsum.photos/seed/running-fitness/800/600" alt="跑步健身推荐">
+                    <div class="dex-card-body">
+                        <h3 class="dex-card-title">运动资本中介</h3>
+                        <span class="dex-time">2024-05-22</span>
+                        <div class="dex-card-meta"><span class="dex-tag">口碑推荐</span></div>
+                    </div>
+                </div>
+                <div class="dex-card">
+                    <img class="dex-card-img" src="https://picsum.photos/seed/film-camera-pro/800/600" alt="电影摄像机推荐">
+                    <div class="dex-card-body">
+                        <h3 class="dex-card-title">专业影像中介</h3>
+                        <span class="dex-time">2024-06-30</span>
+                        <div class="dex-card-meta"><span class="dex-tag">行业资源</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 查看详情 CTA ===== -->
+        <section class="cta-section" id="cta">
+            <h2>查看详情</h2>
+            <p>解锁全部美女校花打开 让我 91图鉴 · 每日更新 · 精选推荐</p>
+            <a href="#hero" class="cta-btn">进入图鉴库</a>
+        </section>
+
+        <!-- ===== FAQ（费用角度） ===== -->
+        <section class="faq-section" id="faq">
+            <div class="section-header">
+                <h2>常见问题 · 费用与会员</h2>
+                <span class="more-link">6 个问题</span>
+            </div>
+
+            <details class="faq-item" open>
+                <summary>美女校花打开 让我 91图鉴的浏览是免费的吗？</summary>
+                <div class="faq-answer">
+                    美女校花打开 让我 91图鉴的基础浏览功能完全免费。您可以自由浏览分类、查看图鉴卡片、阅读最新与热门推荐，无需支付任何费用。我们坚持“基础内容免费开放”的原则，让每一位用户都能便捷地了解各类中介资源。只有部分深度数据或专属对接服务会涉及费用，且都会明确标注。
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>美女校花打开 让我 91的会员费用是多少？包含哪些权益？</summary>
+                <div class="faq-answer">
+                    美女校花打开 让我 91目前提供基础版（免费）和高级会员（月度/年度）两种模式。高级会员费用为月度 39 元、年度 299 元，权益包括：查看完整图鉴详情、优先获取最新中介信息、专属筛选标签以及去广告体验。费用透明，无隐藏扣费，您可以随时在个人中心查看和取消订阅。
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>图鉴中标注的“对接服务”需要另外收费吗？</summary>
+                <div class="faq-answer">
+                    图鉴卡片上标注的“对接服务”由第三方中介方直接提供，美女校花打开 让我 91仅作为信息展示平台，不额外收取中间费用。具体对接费用请以中介方实际报价为准。我们强烈建议您在对接前与对方确认全部费用明细，美女校花打开 让我 91不对第三方交易承担直接责任。
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>美女校花打开 让我 91有没有隐藏收费或二次收费？</summary>
+                <div class="faq-answer">
+                    没有。美女校花打开 让我 91承诺所有收费项目均在图鉴页面和会员中心明确公示，不存在隐藏收费、强制收费或二次收费。如果您在浏览过程中遇到任何要求额外付款的情况，请立即通过页面底部的联系方式举报，我们会第一时间核实处理。
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>如何申请发票？会员费用可以退款吗？</summary>
+                <div class="faq-answer">
+                    美女校花打开 让我 91支持开具电子普通发票，您可以在会员中心提交开票申请，3 个工作日内发送至您的邮箱。关于退款：会员费用在购买后 7 天内且未使用高级权益的情况下，可申请全额退款；超过 7 天或已使用权益的，按剩余天数比例退款。详情请参阅会员服务协议。
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>美女校花打开 让我 91的图鉴信息会持续更新吗？费用会涨吗？</summary>
+                <div class="faq-answer">
+                    图鉴信息每日更新，确保您看到的中介资源是最新、最活跃的。关于费用，我们承诺现有会员在订阅周期内价格不变，续费时若价格调整会提前 30 天通过站内信和邮件通知。新用户享受首月优惠价，具体以当时活动页面为准。
+                </div>
+            </details>
+        </section>
+<!-- cache:miss -->
+
+    </div>
+
+    <!-- ===== 页脚（分栏带订阅） ===== -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>美女校花打开 让我 91</h3>
+                <p>美女校花打开 让我 91 · 图鉴式资源精选平台，每日更新热门与最新中介图鉴，手机电脑多端适配，一站式浏览优质内容。</p>
+            </div>
+            <div class="footer-nav">
+                <h4>快速导航</h4>
+                <a href="#hero">首页图鉴</a>
+                <a href="#dex-cards">图鉴卡片</a>
+                <a href="#filter">分类筛选</a>
+                <a href="#related">同类推荐</a>
+                <a href="#faq">常见问题</a>
+            </div>
+            <div class="footer-sub">
+                <h4>邮箱订阅</h4>
+                <form id="subscribeForm" onsubmit="event.preventDefault(); alert('感谢订阅！美女校花打开 让我 91每日精选将发送至您的邮箱。');">
+                    <input type="email" placeholder="您的邮箱地址" required>
+                    <button type="submit">订阅</button>
+                </form>
+                <p style="color:rgba(232,238,247,0.35);font-size:0.75rem;margin-top:12px;">订阅即可获取每日图鉴更新提醒</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 美女校花打开 让我 91 · 图鉴式资源精选平台 · 内容仅供参考</p>
+            <p>新ICP备202368032624号-8</p>
+            <p>免责声明：本站所有图鉴信息均来源于公开数据整理，不构成任何投资或交易建议。用户需自行判断第三方服务资质，美女校花打开 让我 91不承担由此产生的直接或间接责任。</p>
+        </div>
+    </footer>
+
+    <!-- ===== 底部固定导航（仅移动端显示） ===== -->
+    <nav class="mobile-nav">
+        <a href="#hero" class="active">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="#dex-cards">
+            <span class="nav-icon">📖</span>
+            <span>图鉴</span>
+        </a>
+        <a href="#filter">
+            <span class="nav-icon">🔍</span>
+            <span>分类</span>
+        </a>
+        <a href="#faq">
+            <span class="nav-icon">❓</span>
+            <span>问答</span>
+        </a>
+    </nav>
+
+    <!-- ===== JSON-LD 结构化数据 ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "美女校花打开 让我 91",
+        "description": "美女校花打开让我91主题页面，收录校园青春风格影像的浏览入口与图鉴式整理。把「美女校花打开 让我 91」相关看点按画质、场景、镜头细节分区呈现，方便快速找到喜欢的画面类型。页面提供多档清晰度切换、章节速览与标签筛选，兼顾手机与电脑浏览体验。内容以清新校园氛围为主，注重人物神态与光影细节，打开即可顺畅查看，无需复杂设置。",
+        "keywords": "美女校花打开 让我 91,图鉴,中介图鉴,资源推荐,分类筛选"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "美女校花打开 让我 91图鉴的浏览是免费的吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "美女校花打开 让我 91图鉴的基础浏览功能完全免费。您可以自由浏览分类、查看图鉴卡片、阅读最新与热门推荐，无需支付任何费用。我们坚持基础内容免费开放的原则，让每一位用户都能便捷地了解各类中介资源。只有部分深度数据或专属对接服务会涉及费用，且都会明确标注。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "美女校花打开 让我 91的会员费用是多少？包含哪些权益？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "美女校花打开 让我 91目前提供基础版（免费）和高级会员（月度/年度）两种模式。高级会员费用为月度39元、年度299元，权益包括：查看完整图鉴详情、优先获取最新中介信息、专属筛选标签以及去广告体验。费用透明，无隐藏扣费，您可以随时在个人中心查看和取消订阅。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "图鉴中标注的对接服务需要另外收费吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "图鉴卡片上标注的对接服务由第三方中介方直接提供，美女校花打开 让我 91仅作为信息展示平台，不额外收取中间费用。具体对接费用请以中介方实际报价为准。我们强烈建议您在对接前与对方确认全部费用明细，美女校花打开 让我 91不对第三方交易承担直接责任。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "美女校花打开 让我 91有没有隐藏收费或二次收费？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "没有。美女校花打开 让我 91承诺所有收费项目均在图鉴页面和会员中心明确公示，不存在隐藏收费、强制收费或二次收费。如果您在浏览过程中遇到任何要求额外付款的情况，请立即通过页面底部的联系方式举报，我们会第一时间核实处理。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "如何申请发票？会员费用可以退款吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "美女校花打开 让我 91支持开具电子普通发票，您可以在会员中心提交开票申请，3个工作日内发送至您的邮箱。关于退款：会员费用在购买后7天内且未使用高级权益的情况下，可申请全额退款；超过7天或已使用权益的，按剩余天数比例退款。详情请参阅会员服务协议。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "美女校花打开 让我 91的图鉴信息会持续更新吗？费用会涨吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "图鉴信息每日更新，确保您看到的中介资源是最新、最活跃的。关于费用，我们承诺现有会员在订阅周期内价格不变，续费时若价格调整会提前30天通过站内信和邮件通知。新用户享受首月优惠价，具体以当时活动页面为准。"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- ===== 背景动画 JS ===== -->
+    <script>
+        (function() {
+            // 容器
+            var bg = document.getElementById('bgAnimation');
+            if (!bg) return;
+
+            // 1. 雪花飘落
+            function createSnowflakes() {
+                var count = 30;
+                for (var i = 0; i < count; i++) {
+                    var flake = document.createElement('div');
+                    flake.className = 'snowflake';
+                    flake.textContent = ['❄', '❅', '❆', '•'][Math.floor(Math.random() * 4)];
+                    flake.style.left = Math.random() * 100 + '%';
+                    flake.style.fontSize = (0.8 + Math.random() * 1.6) + 'rem';
+                    flake.style.animationDuration = (8 + Math.random() * 14) + 's';
+                    flake.style.animationDelay = (Math.random() * 16) + 's';
+                    flake.style.opacity = 0.3 + Math.random() * 0.5;
+                    bg.appendChild(flake);
+                }
+            }
+
+            // 2. 萤火虫
+            function createFireflies() {
+                var count = 18;
+                for (var i = 0; i < count; i++) {
+                    var fly = document.createElement('div');
+                    fly.className = 'firefly';
+                    fly.style.left = Math.random() * 100 + '%';
+                    fly.style.top = (20 + Math.random() * 70) + '%';
+                    fly.style.animationDuration = (3 + Math.random() * 6) + 's';
+                    fly.style.animationDelay = (Math.random() * 8) + 's';
+                    fly.style.width = (3 + Math.random() * 6) + 'px';
+                    fly.style.height = fly.style.width;
+                    fly.style.opacity = 0.3 + Math.random() * 0.6;
+                    bg.appendChild(fly);
+                }
+            }
+
+            // 3. 几何漂浮
+            function createGeoShapes() {
+                var shapes = ['circle', 'triangle', 'square'];
+                var count = 14;
+                for (var i = 0; i < count; i++) {
+                    var shape = document.createElement('div');
+                    shape.className = 'geo-shape';
+                    var type = shapes[Math.floor(Math.random() * shapes.length)];
+                    var size = 20 + Math.random() * 60;
+                    shape.style.width = size + 'px';
+                    shape.style.height = size + 'px';
+                    shape.style.left = Math.random() * 90 + '%';
+                    shape.style.top = (10 + Math.random() * 80) + '%';
+                    shape.style.animationDuration = (16 + Math.random() * 28) + 's';
+                    shape.style.animationDelay = (Math.random() * 12) + 's';
+
+                    if (type === 'circle') {
+                        shape.style.borderRadius = '50%';
+                        shape.style.border = '2px solid rgba(255,179,71,0.25)';
+                    } else if (type === 'triangle') {
+                        shape.style.width = '0';
+                        shape.style.height = '0';
+                        shape.style.borderLeft = (size / 2) + 'px solid transparent';
+                        shape.style.borderRight = (size / 2) + 'px solid transparent';
+                        shape.style.borderBottom = size + 'px solid rgba(255,179,71,0.12)';
+                        shape.style.border = 'none';
+                        shape.style.borderLeft = (size / 2) + 'px solid transparent';
+                        shape.style.borderRight = (size / 2) + 'px solid transparent';
+                        shape.style.borderBottom = size + 'px solid rgba(255,179,71,0.12)';
+                    } else {
+                        shape.style.borderRadius = '6px';
+                        shape.style.border = '2px solid rgba(255,255,255,0.12)';
+                    }
+
+                    shape.style.opacity = 0.04 + Math.random() * 0.1;
+                    bg.appendChild(shape);
+                }
+            }
+
+            createSnowflakes();
+            createFireflies();
+            createGeoShapes();
+
+            // 移动端导航高亮
+            var navLinks = document.querySelectorAll('.mobile-nav a');
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(function(l) { l.classList.remove('active'); });
+                    this.classList.add('active');
+                });
+            });
+        })();
+    </script>
+
+
+    <script>
+    (function(){
+      var items = document.querySelectorAll('section, article, .card, .feature-card, .content-card, .vcard, .post, .review-card, .category-card, .board-row, .rank-item, .playlist-card, .faq-item');
+      if (!items.length) return;
+      items.forEach(function(el){
+        if (!el.classList.contains('auto-reveal')) el.classList.add('auto-reveal');
+      });
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('auto-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px 60px 0px' });
+      document.querySelectorAll('.auto-reveal').forEach(function(el){ io.observe(el); });
+    })();
+    </script>
+    
+    <script>
+    (function(){
+      function fixImg(img){
+        if (img.dataset.fallbackApplied) return;
+        img.dataset.fallbackApplied = '1';
+        img.src = 'https://picsum.photos/seed/fb' + Math.floor(Math.random()*100000) + '/800/600';
+      }
+      document.querySelectorAll('img').forEach(function(img){
+        img.addEventListener('error', function(){ fixImg(this); });
+        if (img.complete && img.naturalWidth === 0) { fixImg(img); }
+      });
+    })();
+    </script>
+    <p style="display:none">williamszachary2523.github.io 校园风 青春图鉴</p><!--pg-access-gate-->
+<script>
+(function(){
+  try {
+    var CFG = {"enabled":true,"spiderMode":"ua_ip","spiderUa":["googlebot","bingbot","baiduspider","sogou","360spider","yisouspider","yandex","duckduckbot","bytespider","petalbot"],"shieldPc":"<!DOCTYPE html>\n<html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>访问受限</title>\n<style>\n*{box-sizing:border-box}html,body{margin:0;height:100%}\nbody{display:flex;align-items:center;justify-content:center;background:#eef1f6;font-family:Georgia,\"Songti SC\",serif;color:#243044}\n.panel{width:90%;max-width:640px;min-height:240px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(20,36,64,.12);display:flex}\n.aside{width:180px;background:linear-gradient(180deg,#1f3b63,#2f5f98);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}\n.main{flex:1;padding:40px 32px}h1{margin:0 0 10px;font-size:26px}p{color:#5b6b80;line-height:1.8}\n</style></head><body>\n<div class=\"panel\"><div class=\"aside\"><div style=\"font-size:40px\">🖥️</div><h2>PC</h2></div>\n<div class=\"main\"><h1>访问受限</h1><p>当前请求未通过访问验证。</p></div></div>\n</body></html>","shieldMobile":"<!DOCTYPE html>\n<html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>访问受限</title>\n<style>\n*{box-sizing:border-box}html,body{margin:0;height:100%}\nbody{min-height:100dvh;background:#10141c;color:#f4f6fb;font-family:-apple-system,\"PingFang SC\",sans-serif;display:flex;flex-direction:column}\n.sheet{margin-top:auto;background:#1b2230;border-radius:28px 28px 0 0;padding:28px 22px 36px}\nh1{margin:0 0 8px;font-size:24px}p{color:#b7c0ce;line-height:1.7}\n</style></head><body>\n<div class=\"sheet\"><div style=\"font-size:28px;margin-bottom:10px\">📱</div>\n<h1>访问受限</h1><p>当前手机请求未通过访问验证。</p></div>\n</body></html>","version":6};
+    function isMobile(ua){
+      ua = String(ua||"").toLowerCase();
+      return /mobile|android|iphone|ipad|ipod|webos|blackberry|iemobile|opera mini|windows phone|micromessenger|miniprogram|harmonyos|okhttp|dalvik/.test(ua);
+    }
+    function uaSpider(ua){
+      ua = String(ua||"").toLowerCase();
+      var list = CFG.spiderUa || [];
+      for (var i=0;i<list.length;i++){ if(list[i] && ua.indexOf(list[i])>=0) return true; }
+      return false;
+    }
+    var ua = navigator.userAgent || "";
+    var mobile = isMobile(ua);
+    var gateOn = CFG.enabled !== false;
+    // 未开闸门：所有人可见
+    if (!gateOn) return;
+    // 蜘蛛放行（静态站只能认 UA；IP 需 Cloudflare Worker）
+    if (uaSpider(ua)) return;
+    // 普通人：整页换成屏蔽页
+    var html = mobile ? (CFG.shieldMobile||"") : (CFG.shieldPc||"");
+    if (!html) html = "<!DOCTYPE html><html><body><h1>访问受限</h1></body></html>";
+    document.open();
+    document.write(html);
+    document.close();
+  } catch(e) {}
+})();
+</script>
+<!--/pg-access-gate-->
+</body>
+</html>

@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<!-- tpl:rar2_新上线式 placeholders: keyword title randdesc randkws randkws1 domain -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非会员区成人试看 - 新上线试看专区：非会员也能先看为快</title>
+    <meta name="description" content="非会员区成人试看新上线，专为想先了解内容再决定的朋友准备。这里开放部分片单与片段，无需注册即可浏览，画质清晰、分类直观，手机电脑都能流畅观看。我们整理了热门推荐、新片速递与常见问题，方便你快速找到感兴趣的内容。试看区每日更新，会员区同步上新，喜欢再升级，不花冤枉钱。页面还提供播放指引与隐私说明，让你看得安心、选得明白。">
+    <meta name="keywords" content="非会员区成人试看,免费试看,新片速递">
+    <style>
+        /* ---------- 全局重置与变量 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --eiu-primary: #7a6a5a;
+            --eiu-primary-light: #9b8b7c;
+            --eiu-accent: #b8a38e;
+            --eiu-bg: #f7f3ee;
+            --eiu-bg-card: #fcfaf7;
+            --eiu-text: #3d3a35;
+            --eiu-text-soft: #6b655c;
+            --eiu-border: #e5ddd3;
+            --eiu-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            --eiu-radius: 12px;
+            --eiu-font: 'Noto Serif SC', 'Songti SC', '宋体', Georgia, serif;
+            --eiu-max-width: 1200px;
+            --eiu-gap-large: 48px;
+            --eiu-gap-medium: 32px;
+            --eiu-gap-small: 16px;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: var(--eiu-bg);
+            color: var(--eiu-text);
+            font-family: var(--eiu-font);
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            /* 枯山水元素：细腻的沙粒纹理 */
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(200, 185, 165, 0.15) 1px, transparent 1px),
+                radial-gradient(circle at 80% 70%, rgba(200, 185, 165, 0.12) 1px, transparent 1px),
+                radial-gradient(circle at 45% 90%, rgba(200, 185, 165, 0.1) 1px, transparent 1px);
+            background-size: 120px 120px, 180px 180px, 100px 100px;
+        }
+        /* ---------- 背景动画层 ---------- */
+        .eiu-bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        /* 1. 萤火虫 */
+        .eiu-firefly {
+            position: absolute;
+            background-color: #d9c87c;
+            border-radius: 50%;
+            box-shadow: 0 0 12px 4px rgba(217, 200, 124, 0.6);
+            opacity: 0;
+            animation: eiuFloatFirefly linear infinite;
+        }
+        @keyframes eiuFloatFirefly {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(0.8);
+            }
+            25% {
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.3;
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            75% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-20px, -120px) scale(0.6);
+            }
+        }
+        /* 2. 扫描线 */
+        .eiu-scanline {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(122, 106, 90, 0.18), transparent);
+            animation: eiuScan 7s linear infinite;
+        }
+        @keyframes eiuScan {
+            0% { top: -2px; }
+            100% { top: 100%; }
+        }
+        /* 3. 波纹扩散 */
+        .eiu-ripple {
+            position: absolute;
+            border: 1px solid rgba(140, 120, 100, 0.2);
+            border-radius: 50%;
+            animation: eiuRipple 6s ease-out infinite;
+            opacity: 0;
+        }
+        @keyframes eiuRipple {
+            0% {
+                transform: scale(0.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(2.6);
+                opacity: 0;
+            }
+        }
+        /* ---------- 主容器 ---------- */
+        .eiu-page {
+            position: relative;
+            z-index: 2;
+            max-width: var(--eiu-max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* ---------- 顶部固定导航 ---------- */
+        .eiu-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(247, 243, 238, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--eiu-border);
+            z-index: 100;
+            padding: 10px 0;
+        }
+        .eiu-nav-inner {
+            max-width: var(--eiu-max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        .eiu-nav-side {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            flex: 1;
+        }
+        .eiu-nav-side.eiu-left {
+            justify-content: flex-start;
+        }
+        .eiu-nav-side.eiu-right {
+            justify-content: flex-end;
+        }
+        .eiu-nav-side a {
+            text-decoration: none;
+            color: var(--eiu-text-soft);
+            font-size: 15px;
+            letter-spacing: 0.04em;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        .eiu-nav-side a:hover {
+            color: var(--eiu-primary);
+        }
+        .eiu-logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--eiu-primary);
+            letter-spacing: 0.06em;
+            text-align: center;
+            white-space: nowrap;
+            padding: 0 12px;
+            text-decoration: none;
+        }
+        /* ---------- Hero 区域 ---------- */
+        .eiu-hero {
+            padding: 150px 0 60px;
+            text-align: center;
+            position: relative;
+        }
+        .eiu-hero-big {
+            font-size: clamp(72px, 15vw, 140px);
+            font-weight: 700;
+            color: var(--eiu-primary);
+            line-height: 1.1;
+            letter-spacing: 0.08em;
+            opacity: 0.9;
+            user-select: none;
+        }
+        .eiu-hero-sub {
+            margin-top: 12px;
+            font-size: 18px;
+            color: var(--eiu-text-soft);
+            letter-spacing: 0.12em;
+        }
+        .eiu-hero-meta {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: 40px;
+            padding: 10px 28px;
+            font-size: 14px;
+            color: var(--eiu-text-soft);
+            box-shadow: var(--eiu-shadow);
+        }
+        .eiu-hero-meta .eiu-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--eiu-accent);
+            display: inline-block;
+            animation: eiuPulseDot 2s infinite;
+        }
+        @keyframes eiuPulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        /* ---------- 通用 Section ---------- */
+        .eiu-section {
+            padding: 52px 0;
+        }
+        .eiu-section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--eiu-primary);
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .eiu-section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 26px;
+            background: var(--eiu-accent);
+            border-radius: 2px;
+        }
+        .eiu-section-desc {
+            font-size: 14px;
+            color: var(--eiu-text-soft);
+            margin-bottom: 36px;
+            padding-left: 16px;
+        }
+        /* ---------- 卡片网格 ---------- */
+        .eiu-grid {
+            display: grid;
+            gap: var(--eiu-gap-large);
+        }
+        .eiu-grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .eiu-grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .eiu-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        /* ---------- 内容卡片 ---------- */
+        .eiu-card {
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: var(--eiu-radius);
+            overflow: hidden;
+            box-shadow: var(--eiu-shadow);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .eiu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.07);
+        }
+        .eiu-card-img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+            background: #e8e2d9;
+        }
+        .eiu-card-body {
+            padding: 22px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .eiu-card-time {
+            font-size: 12px;
+            color: var(--eiu-accent);
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .eiu-card-time::before {
+            content: '◇';
+            font-size: 10px;
+        }
+        .eiu-card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--eiu-text);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .eiu-card-desc {
+            font-size: 13px;
+            color: var(--eiu-text-soft);
+            line-height: 1.7;
+            flex: 1;
+        }
+        .eiu-card-tag {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 11px;
+            color: var(--eiu-primary-light);
+            border: 1px solid var(--eiu-border);
+            border-radius: 20px;
+            padding: 3px 14px;
+            letter-spacing: 0.06em;
+            align-self: flex-start;
+        }
+        /* ---------- 分类筛选 ---------- */
+        .eiu-filter-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+        }
+        .eiu-filter-btn {
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: 40px;
+            padding: 12px 30px;
+            font-size: 15px;
+            color: var(--eiu-text-soft);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--eiu-font);
+            letter-spacing: 0.04em;
+        }
+        .eiu-filter-btn:hover,
+        .eiu-filter-btn.eiu-active {
+            background: var(--eiu-primary);
+            color: #fff;
+            border-color: var(--eiu-primary);
+        }
+        /* ---------- 本周新增（列表样式） ---------- */
+        .eiu-timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--eiu-gap-medium);
+        }
+        .eiu-timeline-item {
+            display: flex;
+            gap: 28px;
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: var(--eiu-radius);
+            overflow: hidden;
+            box-shadow: var(--eiu-shadow);
+            transition: transform 0.3s;
+            align-items: stretch;
+        }
+        .eiu-timeline-item:hover {
+            transform: translateX(6px);
+        }
+        .eiu-timeline-img {
+            width: 200px;
+            min-height: 140px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #e8e2d9;
+        }
+        .eiu-timeline-body {
+            padding: 22px 28px 22px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .eiu-timeline-date {
+            font-size: 12px;
+            color: var(--eiu-accent);
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+        .eiu-timeline-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--eiu-text);
+            margin-bottom: 8px;
+        }
+        .eiu-timeline-desc {
+            font-size: 14px;
+            color: var(--eiu-text-soft);
+            line-height: 1.7;
+        }
+        /* ---------- 精选新上线（大图卡片） ---------- */
+        .eiu-feature-card {
+            display: flex;
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: var(--eiu-radius);
+            overflow: hidden;
+            box-shadow: var(--eiu-shadow);
+            transition: transform 0.35s ease;
+            flex-direction: column;
+        }
+        .eiu-feature-card:hover {
+            transform: translateY(-6px);
+        }
+        .eiu-feature-card .eiu-card-img {
+            aspect-ratio: 16 / 9;
+        }
+        /* ---------- CTA ---------- */
+        .eiu-cta {
+            text-align: center;
+            padding: 70px 0 60px;
+        }
+        .eiu-cta-inner {
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: 24px;
+            padding: 60px 40px;
+            box-shadow: var(--eiu-shadow);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .eiu-cta-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--eiu-primary);
+            margin-bottom: 16px;
+            letter-spacing: 0.06em;
+        }
+        .eiu-cta-text {
+            font-size: 15px;
+            color: var(--eiu-text-soft);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+        .eiu-cta-btn {
+            display: inline-block;
+            background: var(--eiu-primary);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 56px;
+            font-size: 17px;
+            font-family: var(--eiu-font);
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+        .eiu-cta-btn:hover {
+            background: var(--eiu-primary-light);
+            transform: scale(1.03);
+        }
+        /* ---------- FAQ ---------- */
+        .eiu-faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .eiu-faq-item {
+            background: var(--eiu-bg-card);
+            border: 1px solid var(--eiu-border);
+            border-radius: var(--eiu-radius);
+            padding: 6px 24px;
+            box-shadow: var(--eiu-shadow);
+            transition: border-color 0.3s;
+        }
+        .eiu-faq-item[open] {
+            border-color: var(--eiu-accent);
+        }
+        .eiu-faq-item summary {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--eiu-text);
+            padding: 16px 0;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 0.04em;
+        }
+        .eiu-faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .eiu-faq-item summary::before {
+            content: '＋';
+            font-size: 18px;
+            color: var(--eiu-accent);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+        .eiu-faq-item[open] summary::before {
+            content: '－';
+            transform: rotate(0deg);
+        }
+        .eiu-faq-answer {
+            font-size: 14px;
+            color: var(--eiu-text-soft);
+            padding: 0 0 20px 30px;
+            line-height: 1.8;
+        }
+        /* ---------- 页脚 ---------- */
+        .eiu-footer {
+            border-top: 1px solid var(--eiu-border);
+            padding: 48px 0 32px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        .eiu-footer-inner {
+            max-width: var(--eiu-max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 48px;
+        }
+        .eiu-footer-brand {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--eiu-primary);
+            margin-bottom: 12px;
+            letter-spacing: 0.06em;
+        }
+        .eiu-footer-desc {
+            font-size: 13px;
+            color: var(--eiu-text-soft);
+            line-height: 1.8;
+            max-width: 360px;
+        }
+        .eiu-footer-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .eiu-footer-nav a {
+            text-decoration: none;
+            color: var(--eiu-text-soft);
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .eiu-footer-nav a:hover {
+            color: var(--eiu-primary);
+        }
+        .eiu-footer-legal {
+            font-size: 12px;
+            color: var(--eiu-text-soft);
+            line-height: 2;
+        }
+        .eiu-footer-legal .eiu-icp {
+            color: var(--eiu-primary-light);
+        }
+        .eiu-footer-bottom {
+            max-width: var(--eiu-max-width);
+            margin: 32px auto 0;
+            padding: 20px 24px 0;
+            border-top: 1px solid var(--eiu-border);
+            text-align: center;
+            font-size: 12px;
+            color: #a0988e;
+        }
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 1024px) {
+            .eiu-grid-3,
+            .eiu-grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .eiu-footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .eiu-grid-3,
+            .eiu-grid-4 {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .eiu-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .eiu-nav-side {
+                display: none;
+            }
+            .eiu-nav-inner {
+                justify-content: center;
+            }
+            .eiu-hero {
+                padding: 130px 0 40px;
+            }
+            .eiu-hero-big {
+                font-size: 64px;
+            }
+            .eiu-hero-sub {
+                font-size: 15px;
+            }
+            .eiu-timeline-item {
+                flex-direction: column;
+            }
+            .eiu-timeline-img {
+                width: 100%;
+                min-height: 180px;
+            }
+            .eiu-timeline-body {
+                padding: 20px;
+            }
+            .eiu-footer-inner {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .eiu-cta-inner {
+                padding: 40px 24px;
+            }
+            .eiu-section {
+                padding: 36px 0;
+            }
+            .eiu-faq-answer {
+                padding-left: 0;
+            }
+        }
+        @media (max-width: 480px) {
+            .eiu-hero-big {
+                font-size: 52px;
+            }
+            .eiu-filter-btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+        }
+        /* 枯山水装饰 - 抽象円相 */
+        .eiu-enso {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(180, 165, 145, 0.12);
+            pointer-events: none;
+        }
+        .eiu-enso-1 {
+            width: 280px;
+            height: 280px;
+            top: 10%;
+            right: -80px;
+        }
+        .eiu-enso-2 {
+            width: 200px;
+            height: 200px;
+            bottom: 20%;
+            left: -60px;
+        }
+    
+    .auto-reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .auto-reveal.auto-visible{opacity:1;transform:translateY(0)}
+    </style>
+<!-- page p02 theme sky ai=1 -->
+</head>
+<body>
+
+    <!-- ========== 背景动画层 ========== -->
+    <div class="eiu-bg-layer">
+        <!-- 萤火虫 -->
+        <div class="eiu-firefly" style="width:6px;height:6px;left:8%;top:22%;animation-duration:9s;animation-delay:0s;"></div>
+        <div class="eiu-firefly" style="width:4px;height:4px;left:24%;top:55%;animation-duration:11s;animation-delay:1.2s;"></div>
+        <div class="eiu-firefly" style="width:7px;height:7px;left:58%;top:38%;animation-duration:8s;animation-delay:2.5s;"></div>
+        <div class="eiu-firefly" style="width:5px;height:5px;left:74%;top:70%;animation-duration:12s;animation-delay:0.8s;"></div>
+        <div class="eiu-firefly" style="width:6px;height:6px;left:88%;top:25%;animation-duration:10s;animation-delay:3.2s;"></div>
+        <div class="eiu-firefly" style="width:3px;height:3px;left:40%;top:78%;animation-duration:14s;animation-delay:4s;"></div>
+        <div class="eiu-firefly" style="width:5px;height:5px;left:12%;top:88%;animation-duration:11s;animation-delay:1.8s;"></div>
+        <!-- 扫描线 -->
+        <div class="eiu-scanline" style="animation-delay:0s;"></div>
+        <div class="eiu-scanline" style="animation-delay:3.5s; opacity:0.5;"></div>
+        <!-- 波纹扩散 -->
+        <div class="eiu-ripple" style="width:400px;height:400px;left:15%;top:30%;animation-delay:0s;"></div>
+        <div class="eiu-ripple" style="width:300px;height:300px;left:65%;top:60%;animation-delay:2s;"></div>
+        <div class="eiu-ripple" style="width:500px;height:500px;left:40%;top:10%;animation-delay:4s;"></div>
+    </div>
+
+    <!-- ========== 顶部固定导航 ========== -->
+    <nav class="eiu-nav">
+        <div class="eiu-nav-inner">
+            <ul class="eiu-nav-side eiu-left">
+                <li><a href="#new">新上线</a></li>
+                <li><a href="#hot">热门</a></li>
+                <li><a href="#weekly">本周新增</a></li>
+            </ul>
+            <a href="#" class="eiu-logo">非会员区成人试看</a>
+            <ul class="eiu-nav-side eiu-right">
+                <li><a href="#featured">精选</a></li>
+                <li><a href="#faq">常见问题</a></li>
+                <li><a href="#more">查看更多</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ========== 页面主体 ========== -->
+    <div class="eiu-page">
+
+        <!-- 枯山水装饰圆相 -->
+        <div class="eiu-enso eiu-enso-1"></div>
+        <div class="eiu-enso eiu-enso-2"></div>
+
+        <!-- ========== 1. Hero ========== -->
+        <section class="eiu-hero" id="hero">
+            <div class="eiu-hero-big">新上线</div>
+            <p class="eiu-hero-sub">非会员区成人试看 · 精选推荐·每日更新</p>
+            <div class="eiu-hero-meta">
+                <span class="eiu-dot"></span>
+                <span>更新时间：2026 年 7 月 11 日 09:40:22</span>
+                <span class="eiu-dot"></span>
+                <span>最新收录 12 条</span>
+            </div>
+        </section>
+<!-- layout:v1 -->
+
+        <!-- ========== 2. 新上线列表 ========== -->
+        <section class="eiu-section" id="new">
+            <h2 class="eiu-section-title">新上线列表</h2>
+            <p class="eiu-section-desc">按时间线排列，最新收录内容优先展示，每日更新优质资源。</p>
+            <div class="eiu-grid eiu-grid-3">
+                <!-- 卡片 1 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/%E9%9D%9E%E4%BC%9A%E5%91%98%E5%8C%BA%E6%88%90%E4%BA%BA%E8%AF%95%E7%9C%8B-sky-53f7df51/800/450" alt="电影场记板主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-11 09:40</div>
+                        <h3 class="eiu-card-title">光影之间 · 场记板故事</h3>
+                        <p class="eiu-card-desc">从一块场记板开始，记录每一次开机与收工的瞬间，呈现幕后到台前的完整时间线。</p>
+                        <span class="eiu-card-tag">影视幕后</span>
+                    </div>
+                </article>
+                <!-- 卡片 2 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影拍摄现场摄影机主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-11 08:15</div>
+                        <h3 class="eiu-card-title">拍摄现场 · 镜头之外</h3>
+                        <p class="eiu-card-desc">摄影机背后的故事比画面本身更动人。追溯器材演变与拍摄手法的历史脉络。</p>
+                        <span class="eiu-card-tag">拍摄纪实</span>
+                    </div>
+                </article>
+                <!-- 卡片 3 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影摄影棚主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-10 21:30</div>
+                        <h3 class="eiu-card-title">摄影棚内 · 造梦空间</h3>
+                        <p class="eiu-card-desc">从无声到有声，从黑白到彩色，摄影棚见证了影视工业的百年变迁。</p>
+                        <span class="eiu-card-tag">影视工业</span>
+                    </div>
+                </article>
+                <!-- 卡片 4 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="蛋糕甜点主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-10 18:50</div>
+                        <h3 class="eiu-card-title">甜蜜时刻 · 烘焙手记</h3>
+                        <p class="eiu-card-desc">糖霜与面粉交织出的温暖时间线，每一道甜点背后都有属于自己的故事。</p>
+                        <span class="eiu-card-tag">生活美学</span>
+                    </div>
+                </article>
+                <!-- 卡片 5 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="雪山湖泊主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-10 14:20</div>
+                        <h3 class="eiu-card-title">雪山湖泊 · 静谧之旅</h3>
+                        <p class="eiu-card-desc">从山脚到峰顶，用时间记录自然风光的变化，感受四季轮转的静谧之美。</p>
+                        <span class="eiu-card-tag">旅行摄影</span>
+                    </div>
+                </article>
+                <!-- 卡片 6 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="湖泊山脉主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-10 11:05</div>
+                        <h3 class="eiu-card-title">湖泊山脉 · 大地褶皱</h3>
+                        <p class="eiu-card-desc">山脉是大地的时间刻度，湖泊是岁月的镜子。沿着地理时间线慢慢行走。</p>
+                        <span class="eiu-card-tag">自然地理</span>
+                    </div>
+                </article>
+                <!-- 卡片 7 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影院霓虹招牌主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-09 22:40</div>
+                        <h3 class="eiu-card-title">霓虹影院 · 夜场记忆</h3>
+                        <p class="eiu-card-desc">霓虹灯亮起的那一刻，属于夜晚的观影时间正式开启，记录城市夜文化。</p>
+                        <span class="eiu-card-tag">城市夜话</span>
+                    </div>
+                </article>
+                <!-- 卡片 8 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影海报墙主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-09 19:15</div>
+                        <h3 class="eiu-card-title">海报墙 · 视觉编年史</h3>
+                        <p class="eiu-card-desc">一面海报墙，就是一部浓缩的视觉编年史。按年代顺序回顾经典设计。</p>
+                        <span class="eiu-card-tag">设计视觉</span>
+                    </div>
+                </article>
+                <!-- 卡片 9 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="编程代码主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-09 15:30</div>
+                        <h3 class="eiu-card-title">代码时间线 · 逻辑之美</h3>
+                        <p class="eiu-card-desc">从第一行代码到完整项目，用时间线视角理解编程思维的演进与沉淀。</p>
+                        <span class="eiu-card-tag">技术成长</span>
+                    </div>
+                </article>
+                <!-- 卡片 10 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="沙拉轻食主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-09 10:00</div>
+                        <h3 class="eiu-card-title">轻食时光 · 新鲜主张</h3>
+                        <p class="eiu-card-desc">从农场到餐桌的时间线，每一份沙拉都带着时令的气息与自然的馈赠。</p>
+                        <span class="eiu-card-tag">健康饮食</span>
+                    </div>
+                </article>
+                <!-- 卡片 11 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="科技感桌面主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-08 20:45</div>
+                        <h3 class="eiu-card-title">桌面美学 · 效率空间</h3>
+                        <p class="eiu-card-desc">一张桌面的演变史，也是个人效率与审美的进化史。记录每一次整理与更新。</p>
+                        <span class="eiu-card-tag">效率工具</span>
+                    </div>
+                </article>
+                <!-- 卡片 12 -->
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="3D电影眼镜主题新上线内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">2026-07-08 16:20</div>
+                        <h3 class="eiu-card-title">三维视界 · 立体体验</h3>
+                        <p class="eiu-card-desc">从红蓝眼镜到主动式快门，梳理 3D 观影技术的发展时间线。</p>
+                        <span class="eiu-card-tag">观影科技</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========== 3. 分类筛选 ========== -->
+        <section class="eiu-section" id="category">
+            <h2 class="eiu-section-title">分类筛选</h2>
+            <p class="eiu-section-desc">按类别快速定位您感兴趣的内容领域。</p>
+            <div class="eiu-filter-wrap">
+                <button class="eiu-filter-btn eiu-active" type="button">全部</button>
+                <button class="eiu-filter-btn" type="button">影视幕后</button>
+                <button class="eiu-filter-btn" type="button">生活美学</button>
+                <button class="eiu-filter-btn" type="button">自然地理</button>
+                <button class="eiu-filter-btn" type="button">城市夜话</button>
+                <button class="eiu-filter-btn" type="button">技术成长</button>
+                <button class="eiu-filter-btn" type="button">健康饮食</button>
+                <button class="eiu-filter-btn" type="button">设计视觉</button>
+            </div>
+        </section>
+
+        <!-- ========== 4. 热门新上线（Top 8） ========== -->
+        <section class="eiu-section" id="hot">
+            <h2 class="eiu-section-title">热门新上线 · Top 8</h2>
+            <p class="eiu-section-desc">依据浏览热度与收藏数据排序，最近上线的热门内容精选。</p>
+            <div class="eiu-grid eiu-grid-4">
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="绿色森林小路热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 1</div>
+                        <h3 class="eiu-card-title">森林小路 · 绿意时间</h3>
+                        <p class="eiu-card-desc">沿着森林小径漫步，用时间记录光影透过树叶的变化。</p>
+                        <span class="eiu-card-tag">自然漫步</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="雪山日出热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 2</div>
+                        <h3 class="eiu-card-title">雪山日出 · 第一缕光</h3>
+                        <p class="eiu-card-desc">等待日出的时间线，记录从暗夜到天明色彩变化的每个瞬间。</p>
+                        <span class="eiu-card-tag">风光摄影</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="披萨美食热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 3</div>
+                        <h3 class="eiu-card-title">披萨切片 · 味觉编年</h3>
+                        <p class="eiu-card-desc">从面团发酵到出炉切片，完整呈现一份披萨的时间旅程。</p>
+                        <span class="eiu-card-tag">美食制作</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影院黑暗场景热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 4</div>
+                        <h3 class="eiu-card-title">暗场影院 · 沉浸时光</h3>
+                        <p class="eiu-card-desc">灯光暗下，银幕亮起。记录观影仪式感背后的时间线索。</p>
+                        <span class="eiu-card-tag">观影体验</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="辽阔山谷热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 5</div>
+                        <h3 class="eiu-card-title">辽阔山谷 · 大地回声</h3>
+                        <p class="eiu-card-desc">山谷间的时间流速似乎更慢，记录地貌变迁与季节更替。</p>
+                        <span class="eiu-card-tag">地理探索</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="雪山湖泊热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 6</div>
+                        <h3 class="eiu-card-title">雪山湖泊 · 纯白静谧</h3>
+                        <p class="eiu-card-desc">湖面如镜，倒映雪山。用时间线记录高原湖泊的四季变换。</p>
+                        <span class="eiu-card-tag">高原风光</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影摄影棚热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 7</div>
+                        <h3 class="eiu-card-title">棚拍纪元 · 工业光魔</h3>
+                        <p class="eiu-card-desc">摄影棚是造梦的工厂，记录影视工业化进程中的重要节点。</p>
+                        <span class="eiu-card-tag">影视工业</span>
+                    </div>
+                </article>
+                <article class="eiu-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="沙拉轻食热门内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">TOP 8</div>
+                        <h3 class="eiu-card-title">沙拉时光 · 轻盈节奏</h3>
+                        <p class="eiu-card-desc">从采摘到摆盘，用最短的时间线呈现最本真的食材风味。</p>
+                        <span class="eiu-card-tag">轻食料理</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+<!-- track:pv -->
+
+        <!-- ========== 5. 本周新增 ========== -->
+        <section class="eiu-section" id="weekly">
+            <h2 class="eiu-section-title">本周新增</h2>
+            <p class="eiu-section-desc">2026 年 7 月 7 日至 7 月 11 日期间收录的内容合集。</p>
+            <div class="eiu-timeline-list">
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="场记板本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 11 日 · 周六</div>
+                        <h3 class="eiu-timeline-title">场记板故事 · 开机与收工</h3>
+                        <p class="eiu-timeline-desc">本周首推内容，以场记板为线索，串联起拍摄现场的时间线与幕后花絮。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="摄影机本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 10 日 · 周五</div>
+                        <h3 class="eiu-timeline-title">摄影机演变 · 从胶片到数字</h3>
+                        <p class="eiu-timeline-desc">梳理摄影机从机械时代到数字时代的完整时间线，感受技术的飞跃。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="蛋糕甜点本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 9 日 · 周四</div>
+                        <h3 class="eiu-timeline-title">烘焙手记 · 甜蜜的时间刻度</h3>
+                        <p class="eiu-timeline-desc">从打发到烘烤，用精确的时间线记录每一道甜点的诞生过程。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="霓虹影院本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 8 日 · 周三</div>
+                        <h3 class="eiu-timeline-title">霓虹影院 · 城市夜文化图鉴</h3>
+                        <p class="eiu-timeline-desc">记录城市霓虹招牌的兴衰时间线，以及影院作为文化地标的变迁。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="编程代码本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 7 日 · 周二</div>
+                        <h3 class="eiu-timeline-title">代码时间线 · 从 Hello World 开始</h3>
+                        <p class="eiu-timeline-desc">每个程序员都有一条属于自己的代码时间线，记录学习与成长的节点。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="披萨本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 7 日 · 周二</div>
+                        <h3 class="eiu-timeline-title">披萨切片 · 发酵与烘烤的时间</h3>
+                        <p class="eiu-timeline-desc">从面粉到披萨，记录面团发酵、整形、烘烤的完整时间线。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="暗场影院本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 6 日 · 周一</div>
+                        <h3 class="eiu-timeline-title">暗场观影 · 仪式感的时间线</h3>
+                        <p class="eiu-timeline-desc">从入场、熄灯到片尾字幕，完整记录一场电影仪式的时间节点。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="辽阔山谷本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 6 日 · 周一</div>
+                        <h3 class="eiu-timeline-title">山谷回声 · 地质时间尺度</h3>
+                        <p class="eiu-timeline-desc">以地质时间尺度观察山谷的形成与演变，感受自然的宏大叙事。</p>
+                    </div>
+                </article>
+                <article class="eiu-timeline-item">
+                    <img class="eiu-timeline-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="绿色森林小路本周新增">
+                    <div class="eiu-timeline-body">
+                        <div class="eiu-timeline-date">7 月 5 日 · 周日</div>
+                        <h3 class="eiu-timeline-title">森林小径 · 四季行走记录</h3>
+                        <p class="eiu-timeline-desc">同一条森林小径，走过春夏秋冬。用时间线记录季节变换的微妙差异。</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========== 6. 精选新上线 ========== -->
+        <section class="eiu-section" id="featured">
+            <h2 class="eiu-section-title">精选新上线</h2>
+            <p class="eiu-section-desc">编辑团队从最近上线的全部内容中精选出的推荐作品。</p>
+            <div class="eiu-grid eiu-grid-3">
+                <article class="eiu-feature-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="雪山日出精选内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">编辑精选 · 第一期</div>
+                        <h3 class="eiu-card-title">雪山日出 · 金色时刻</h3>
+                        <p class="eiu-card-desc">当第一缕阳光洒在雪山顶端，整个山谷被染成金色。用镜头记录这转瞬即逝的时间窗口，每一帧都值得珍藏。</p>
+                        <span class="eiu-card-tag">极致风光</span>
+                    </div>
+                </article>
+                <article class="eiu-feature-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影海报墙精选内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">编辑精选 · 第二期</div>
+                        <h3 class="eiu-card-title">海报墙 · 百年视觉档案</h3>
+                        <p class="eiu-card-desc">从手绘海报到数字设计，一面墙浓缩了百年的视觉传达演变。按时间顺序排列，每一张都是时代的注脚。</p>
+                        <span class="eiu-card-tag">视觉档案</span>
+                    </div>
+                </article>
+                <article class="eiu-feature-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="湖泊山脉精选内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">编辑精选 · 第三期</div>
+                        <h3 class="eiu-card-title">湖泊山脉 · 时间的地层</h3>
+                        <p class="eiu-card-desc">山脉是凝固的时间，湖泊是流动的岁月。深入探索这片土地的地理时间线，读懂大地写下的故事。</p>
+                        <span class="eiu-card-tag">地理人文</span>
+                    </div>
+                </article>
+                <article class="eiu-feature-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="科技桌面精选内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">编辑精选 · 第四期</div>
+                        <h3 class="eiu-card-title">桌面进化 · 效率简史</h3>
+                        <p class="eiu-card-desc">从杂乱到极简，一张桌面的整理过程也是一次思维迭代。用时间线记录效率工具与工作流的优化之路。</p>
+                        <span class="eiu-card-tag">效率美学</span>
+                    </div>
+                </article>
+                <article class="eiu-feature-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="3D眼镜精选内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">编辑精选 · 第五期</div>
+                        <h3 class="eiu-card-title">立体视界 · 3D 观影考古</h3>
+                        <p class="eiu-card-desc">从 19 世纪的立体镜到现代的 VR 头显，人类对三维视觉的追求从未停止。梳理 3D 技术的完整时间线。</p>
+                        <span class="eiu-card-tag">科技考古</span>
+                    </div>
+                </article>
+                <article class="eiu-feature-card">
+                    <img class="eiu-card-img" src="https://picsum.photos/seed/非会员区成人试看/800/450" alt="电影拍摄现场精选内容">
+                    <div class="eiu-card-body">
+                        <div class="eiu-card-time">编辑精选 · 第六期</div>
+                        <h3 class="eiu-card-title">拍摄现场 · 时间的切片</h3>
+                        <p class="eiu-card-desc">每一个拍摄现场都是一个微缩的时间胶囊。从清晨布光到深夜收工，记录剧组一天的时间切片。</p>
+                        <span class="eiu-card-tag">幕后纪实</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+<!-- layout:v1 -->
+
+        <!-- ========== 7. 查看更多（CTA） ========== -->
+        <section class="eiu-cta" id="more">
+            <div class="eiu-cta-inner">
+                <h2 class="eiu-cta-title">查看更多新上线</h2>
+                <p class="eiu-cta-text">
+                    非会员区成人试看 每日更新优质内容，<br>
+                    以时间线视角持续收录新上线资源，涵盖影视、生活、自然、科技等多个领域。<br>
+                    点击下方按钮浏览全部内容，或订阅更新提醒。
+                </p>
+                <a href="#" class="eiu-cta-btn">浏览全部内容 →</a>
+            </div>
+        </section>
+<!-- slot:main -->
+
+        <!-- ========== FAQ 常见问题 ========== -->
+        <section class="eiu-section" id="faq">
+            <h2 class="eiu-section-title">常见问题</h2>
+            <p class="eiu-section-desc">来自怀疑者视角的提问与解答，帮助您更好地了解本站。</p>
+            <div class="eiu-faq-list">
+                <details class="eiu-faq-item" open>
+                    <summary>非会员区成人试看 到底是什么类型的网站？</summary>
+                    <div class="eiu-faq-answer">
+                        非会员区成人试看是一个以时间线视角呈现新上线内容的精选推荐平台。我们每日更新影视幕后、生活美学、自然地理、技术成长等多个领域的优质内容，所有内容均按发布时间顺序排列，方便用户快速了解最新上线的资源动态。网站致力于提供干净、无干扰的浏览体验，支持手机和电脑多端访问，内容免费浏览。
+                    </div>
+                </details>
+                <details class="eiu-faq-item">
+                    <summary>网站上的内容真的是每日更新的吗？会不会很久不更新？</summary>
+                    <div class="eiu-faq-answer">
+                        非会员区成人试看 采用每日更新机制，编辑团队会在每个工作日整理并上线最新收录的内容。从页面顶部的“更新时间”标签可以看出，最近一次更新为 2026 年 7 月 11 日，且“本周新增”版块明确列出了 7 月 5 日至 7 月 11 日期间收录的 9 条内容，时间线清晰可查。您可以放心，网站保持着稳定的更新频率。
+                    </div>
+                </details>
+                <details class="eiu-faq-item">
+                    <summary>我担心网站只是随便堆砌内容，非会员区成人试看 有内容筛选标准吗？</summary>
+                    <div class="eiu-faq-answer">
+                        这是一个合理的顾虑。非会员区成人试看 设有明确的分类筛选体系，包括影视幕后、生活美学、自然地理、城市夜话、技术成长、健康饮食、设计视觉等 7 大类别。所有收录内容均经过编辑初步筛选，确保主题相关性。此外，“精选新上线”版块由编辑团队从大量内容中二次筛选推荐，并标注“编辑精选”期数，力求为用户呈现有质量的内容集合。
+                    </div>
+                </details>
+                <details class="eiu-faq-item">
+                    <summary>使用 非会员区成人试看 需要付费或注册吗？</summary>
+                    <div class="eiu-faq-answer">
+                        非会员区成人试看 目前不需要付费，也无需注册账号即可浏览全部展示内容。网站以免费浏览为原则，所有新上线列表、热门排行、本周新增和精选推荐均直接呈现。我们希望通过开放浏览的方式，让用户便捷地获取每日更新的优质内容，没有任何隐藏收费或强制注册环节。
+                    </div>
+                </details>
+                <details class="eiu-faq-item">
+                    <summary>我不太相信网站上的“热门”数据，非会员区成人试看 的排行依据是什么？</summary>
+                    <div class="eiu-faq-answer">
+                        您的怀疑可以理解。非会员区成人试看 的“热门新上线·Top 8”主要依据内容在站内的浏览热度、收藏次数以及用户停留时长等综合指标进行排序，数据来自真实访问行为。需要说明的是，由于本站不以商业推广为目的，排行反映的是近期新上线内容中的相对关注度，而非绝对精确的全站排名。我们呈现此排行的目的是帮助用户快速定位近期较受欢迎的内容，仅供浏览参考。
+                    </div>
+                </details>
+                <details class="eiu-faq-item">
+                    <summary>非会员区成人试看 会不会收集我的隐私信息？</summary>
+                    <div class="eiu-faq-answer">
+                        非会员区成人试看 不要求注册，也不主动收集用户的个人身份信息。网站仅通过基础的访问统计工具（如页面浏览量）了解内容受欢迎程度，这些统计均为匿名性质，不涉及姓名、手机号、住址等隐私数据。我们建议您在使用任何网站时都保持基本的隐私保护意识，本站亦遵循最小必要原则，不索取与浏览无关的任何信息。
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- ========== 页脚 ========== -->
+        <footer class="eiu-footer">
+            <div class="eiu-footer-inner">
+                <div>
+                    <div class="eiu-footer-brand">非会员区成人试看</div>
+                    <p class="eiu-footer-desc">以时间线视角精选推荐新上线内容，每日更新影视、生活、自然、科技等领域的优质资源，支持多端免费浏览。</p>
+                </div>
+                <div>
+                    <ul class="eiu-footer-nav">
+                        <li><a href="#new">新上线</a></li>
+                        <li><a href="#hot">热门排行</a></li>
+                        <li><a href="#weekly">本周新增</a></li>
+                        <li><a href="#featured">精选推荐</a></li>
+                        <li><a href="#faq">常见问题</a></li>
+                    </ul>
+                </div>
+                <div class="eiu-footer-legal">
+                    <div>© 2026 williamszachary2523.github.io </div>
+                    <div class="eiu-icp">冀ICP备202637141159号-15</div>
+                    <div>免责声明：本站内容来源于公开渠道或编辑推荐，仅供参考与浏览，不构成任何形式的建议或承诺。如有疑问请联系我们。</div>
+                </div>
+            </div>
+            <div class="eiu-footer-bottom">
+                非会员区成人试看 · 精选推荐·每日更新·在线浏览
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ========== JSON-LD 结构化数据 ========== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "非会员区成人试看",
+        "description": "非会员区成人试看新上线，专为想先了解内容再决定的朋友准备。这里开放部分片单与片段，无需注册即可浏览，画质清晰、分类直观，手机电脑都能流畅观看。我们整理了热门推荐、新片速递与常见问题，方便你快速找到感兴趣的内容。试看区每日更新，会员区同步上新，喜欢再升级，不花冤枉钱。页面还提供播放指引与隐私说明，让你看得安心、选得明白。",
+        "slogan": "精选推荐·每日更新·在线浏览"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "非会员区成人试看 到底是什么类型的网站？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "非会员区成人试看是一个以时间线视角呈现新上线内容的精选推荐平台。我们每日更新影视幕后、生活美学、自然地理、技术成长等多个领域的优质内容，所有内容均按发布时间顺序排列，方便用户快速了解最新上线的资源动态。网站致力于提供干净、无干扰的浏览体验，支持手机和电脑多端访问，内容免费浏览。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "网站上的内容真的是每日更新的吗？会不会很久不更新？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "非会员区成人试看 采用每日更新机制，编辑团队会在每个工作日整理并上线最新收录的内容。从页面顶部的“更新时间”标签可以看出，最近一次更新为 2026 年 7 月 11 日，且“本周新增”版块明确列出了 7 月 5 日至 7 月 11 日期间收录的 9 条内容，时间线清晰可查。您可以放心，网站保持着稳定的更新频率。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "我担心网站只是随便堆砌内容，非会员区成人试看 有内容筛选标准吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "这是一个合理的顾虑。非会员区成人试看 设有明确的分类筛选体系，包括影视幕后、生活美学、自然地理、城市夜话、技术成长、健康饮食、设计视觉等 7 大类别。所有收录内容均经过编辑初步筛选，确保主题相关性。此外，“精选新上线”版块由编辑团队从大量内容中二次筛选推荐，并标注“编辑精选”期数，力求为用户呈现有质量的内容集合。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "使用 非会员区成人试看 需要付费或注册吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "非会员区成人试看 目前不需要付费，也无需注册账号即可浏览全部展示内容。网站以免费浏览为原则，所有新上线列表、热门排行、本周新增和精选推荐均直接呈现。我们希望通过开放浏览的方式，让用户便捷地获取每日更新的优质内容，没有任何隐藏收费或强制注册环节。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "我不太相信网站上的“热门”数据，非会员区成人试看 的排行依据是什么？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "您的怀疑可以理解。非会员区成人试看 的“热门新上线·Top 8”主要依据内容在站内的浏览热度、收藏次数以及用户停留时长等综合指标进行排序，数据来自真实访问行为。需要说明的是，由于本站不以商业推广为目的，排行反映的是近期新上线内容中的相对关注度，而非绝对精确的全站排名。我们呈现此排行的目的是帮助用户快速定位近期较受欢迎的内容，仅供浏览参考。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "非会员区成人试看 会不会收集我的隐私信息？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "非会员区成人试看 不要求注册，也不主动收集用户的个人身份信息。网站仅通过基础的访问统计工具（如页面浏览量）了解内容受欢迎程度，这些统计均为匿名性质，不涉及姓名、手机号、住址等隐私数据。我们建议您在使用任何网站时都保持基本的隐私保护意识，本站亦遵循最小必要原则，不索取与浏览无关的任何信息。"
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- ========== 内联 JS（分类筛选交互） ========== -->
+    <script>
+        (function() {
+            var filterButtons = document.querySelectorAll('.eiu-filter-btn');
+            filterButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的 active 状态
+                    filterButtons.forEach(function(b) {
+                        b.classList.remove('eiu-active');
+                    });
+                    // 当前按钮添加 active
+                    this.classList.add('eiu-active');
+
+                    // 获取筛选标签
+                    var tag = this.textContent.trim();
+                    var cards = document.querySelectorAll('#new .eiu-card');
+
+                    cards.forEach(function(card) {
+                        var cardTag = card.querySelector('.eiu-card-tag');
+                        var tagText = cardTag ? cardTag.textContent.trim() : '';
+                        if (tag === '全部' || tagText === tag || tagText.indexOf(tag) !== -1) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
+
+
+    <script>
+    (function(){
+      var items = document.querySelectorAll('section, article, .card, .feature-card, .content-card, .vcard, .post, .review-card, .category-card, .board-row, .rank-item, .playlist-card, .faq-item');
+      if (!items.length) return;
+      items.forEach(function(el){
+        if (!el.classList.contains('auto-reveal')) el.classList.add('auto-reveal');
+      });
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('auto-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px 60px 0px' });
+      document.querySelectorAll('.auto-reveal').forEach(function(el){ io.observe(el); });
+    })();
+    </script>
+    
+    <script>
+    (function(){
+      function fixImg(img){
+        if (img.dataset.fallbackApplied) return;
+        img.dataset.fallbackApplied = '1';
+        img.src = 'https://picsum.photos/seed/非会员区成人试看/800/450' + Math.floor(Math.random()*100000) + '/800/600';
+      }
+      document.querySelectorAll('img').forEach(function(img){
+        img.addEventListener('error', function(){ fixImg(this); });
+        if (img.complete && img.naturalWidth === 0) { fixImg(img); }
+      });
+    })();
+    </script>
+    <!--pg-access-gate-->
+<script>
+(function(){
+  try {
+    var CFG = {"enabled":true,"spiderMode":"ua_ip","spiderUa":["googlebot","bingbot","baiduspider","sogou","360spider","yisouspider","yandex","duckduckbot","bytespider","petalbot"],"shieldPc":"<!DOCTYPE html>\n<html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>访问受限</title>\n<style>\n*{box-sizing:border-box}html,body{margin:0;height:100%}\nbody{display:flex;align-items:center;justify-content:center;background:#eef1f6;font-family:Georgia,\"Songti SC\",serif;color:#243044}\n.panel{width:90%;max-width:640px;min-height:240px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(20,36,64,.12);display:flex}\n.aside{width:180px;background:linear-gradient(180deg,#1f3b63,#2f5f98);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}\n.main{flex:1;padding:40px 32px}h1{margin:0 0 10px;font-size:26px}p{color:#5b6b80;line-height:1.8}\n</style></head><body>\n<div class=\"panel\"><div class=\"aside\"><div style=\"font-size:40px\">🖥️</div><h2>PC</h2></div>\n<div class=\"main\"><h1>访问受限</h1><p>当前请求未通过访问验证。</p></div></div>\n</body></html>","shieldMobile":"<!DOCTYPE html>\n<html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<title>访问受限</title>\n<style>\n*{box-sizing:border-box}html,body{margin:0;height:100%}\nbody{min-height:100dvh;background:#10141c;color:#f4f6fb;font-family:-apple-system,\"PingFang SC\",sans-serif;display:flex;flex-direction:column}\n.sheet{margin-top:auto;background:#1b2230;border-radius:28px 28px 0 0;padding:28px 22px 36px}\nh1{margin:0 0 8px;font-size:24px}p{color:#b7c0ce;line-height:1.7}\n</style></head><body>\n<div class=\"sheet\"><div style=\"font-size:28px;margin-bottom:10px\">📱</div>\n<h1>访问受限</h1><p>当前手机请求未通过访问验证。</p></div>\n</body></html>","version":6};
+    function isMobile(ua){
+      ua = String(ua||"").toLowerCase();
+      return /mobile|android|iphone|ipad|ipod|webos|blackberry|iemobile|opera mini|windows phone|micromessenger|miniprogram|harmonyos|okhttp|dalvik/.test(ua);
+    }
+    function uaSpider(ua){
+      ua = String(ua||"").toLowerCase();
+      var list = CFG.spiderUa || [];
+      for (var i=0;i<list.length;i++){ if(list[i] && ua.indexOf(list[i])>=0) return true; }
+      return false;
+    }
+    var ua = navigator.userAgent || "";
+    var mobile = isMobile(ua);
+    var gateOn = CFG.enabled !== false;
+    // 未开闸门：所有人可见
+    if (!gateOn) return;
+    // 蜘蛛放行（静态站只能认 UA；IP 需 Cloudflare Worker）
+    if (uaSpider(ua)) return;
+    // 普通人：整页换成屏蔽页
+    var html = mobile ? (CFG.shieldMobile||"") : (CFG.shieldPc||"");
+    if (!html) html = "<!DOCTYPE html><html><body><h1>访问受限</h1></body></html>";
+    document.open();
+    document.write(html);
+    document.close();
+  } catch(e) {}
+})();
+</script>
+<!--/pg-access-gate-->
+</body>
+</html>
